@@ -1,0 +1,26 @@
+---
+services:
+  bludit-cms:
+    build:
+      context: .
+    image: bludit-cms
+    container_name: bludit-cms
+    restart: unless-stopped
+    ports:
+      - '5000:80'  # HTTP (non-SSL)
+      - '5443:443' # HTTPS (SSL)
+    environment:
+      - HTTP_METHOD=https  # Change this if needed
+      - INTERNAL_SSL=1  # Enable SSL in Bludit
+    volumes:
+      - /home/rajeshprashanth/bludit/bl-content:/var/www/bludit/bl-content
+      - /home/rajeshprashanth/bludit/certs/:/var/www/bludit/custom-certs  # SSL Certificate
+      - /home/rajeshprashanth/bludit/plugins/:/var/www/bludit/custom-plugins  # Plugins
+      - /home/rajeshprashanth/bludit/themes/:/var/www/bludit/custom-themes  # Themes
+      #- /home/rajeshprashanth/bludit/certs/internal.das.key:/etc/ssl/private/privkey.key  # SSL Private Key
+    networks:
+      - bludit-network
+
+networks:
+  bludit-network:
+    driver: bridge

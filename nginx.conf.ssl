@@ -1,0 +1,61 @@
+user  nginx;
+worker_processes  1;
+
+# Error and access logs
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    # Log settings
+    access_log  /var/log/nginx/access.log;
+
+    # Enable SSL
+    server {
+        listen 80;
+        server_name localhost;
+
+        # Redirect HTTP to HTTPS
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name localhost;
+
+        # SSL configuration
+        ssl_certificate /etc/ssl/certs/fullchain.pem;
+        ssl_certificate_key /etc/ssl/private/privkey.pem;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA256';
+        ssl_prefer_server_ciphers on;
+
+        # Root directory and index
+        root /var/www/bludit;
+        index index.php index.html;
+
+        # Allow .htaccess overrides
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        # PHP-FPM settings (ensure PHP-FPM is installed and running)
+        location ~ \.php$ {
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;  # Adjust PHP-FPM socket if necessary
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param DOCUMENT_ROOT $document_root;
+        }
+
+        # Deny access to hidden files (e.g. .git)
+        location ~ /\. {
+            deny all;
+        }
+    }
+}

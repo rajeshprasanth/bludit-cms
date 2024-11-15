@@ -1,0 +1,54 @@
+user nginx;
+worker_processes 1;
+
+# Error and access logs
+#error_log  /var/log/nginx/error.log;
+error_log  /dev/stderr;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    # Log settings
+    #access_log /var/log/nginx/access.log;
+    access_log /dev/stdout;
+
+    # HTTP server (non-SSL)
+    server {
+        listen 80;
+        server_name localhost;  # Ensure this variable is passed correctly via Docker or another method
+
+        # Root directory and index
+        root /var/www/bludit;
+        index index.php index.html;
+
+        # Allow .htaccess-like overrides in Nginx
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+        }
+
+        # PHP-FPM settings (adjust to point to the correct PHP-FPM service or socket)
+        location ~ \.php$ {
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;  # Ensure this points to the correct PHP-FPM socket or service
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param DOCUMENT_ROOT $document_root;
+        }
+
+        # Static assets caching (optional)
+        location ~ \.(jpg|jpeg|gif|png|css|js|ico|svg|eot|ttf|woff|woff2|otf)$ {
+            access_log on;
+            expires 30d;
+        }
+
+        # Deny access to hidden files (e.g., .git, .env)
+        location ~ /\. {
+            deny all;
+        }
+    }
+}
