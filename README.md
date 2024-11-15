@@ -150,11 +150,9 @@ Make sure that these directories on your host machine exist and are accessible b
 
 You can configure the behavior of the container using the following environment variables:
 
-     - ```HTTP_METHOD```:
-    Set this to ```http``` for HTTP (non-SSL) access or ```https``` for SSL access (default: ```https```).
+     - ```HTTP_METHOD```: Set this to ```http``` for HTTP (non-SSL) access or ```https``` for SSL access (default: ```https```).
 
-     - ```INTERNAL_SSL```:
-    Set to ```1``` to use a self-signed SSL certificate or ```0``` to use externally signed SSL certificates (default: 1).
+     - ```INTERNAL_SSL```: Set to ```1``` to use a self-signed SSL certificate or ```0``` to use externally signed SSL certificates (default: 1).
 
 ---
 
