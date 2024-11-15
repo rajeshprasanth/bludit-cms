@@ -106,7 +106,7 @@ This Docker image comes with default Nginx configuration files. You can customiz
 These files are copied into the container at build time and can be replaced with custom configurations if needed. The image automatically uses these configuration files to set up Nginx to serve Bludit CMS.
 ### SSL Configuration
 
-You can enable SSL by setting the environment variable INTERNAL_SSL=1 (for self-signed certificates) or INTERNAL_SSL=0 (to use externally signed certificates). The certificates can be placed in /path/to/custom-certs on your host machine.
+You can enable SSL by setting the environment variable `INTERNAL_SSL=1` (for self-signed certificates) or `INTERNAL_SSL=0` (to use externally signed certificates). The certificates can be placed in `/path/to/custom-certs` on your host machine.
 
 ---
 ## Usage
