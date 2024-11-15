@@ -122,14 +122,15 @@ After running ```docker-compose up -d```, Docker Compose will automatically star
 
 Bludit CMS should now be running on your server, and you can access it through the following URLs:
 
-    - **HTTP (non-SSL)** : ```http://localhost:5000```
-    - **HTTPS (SSL)** : ```https://localhost:5443```
+- **HTTP (non-SSL)**: `http://localhost:5000`
+- **HTTPS (SSL)**: `https://localhost:5443`
+    
 ---
 
 ## Ports
 
-    - **80** (HTTP): This port is mapped to port 5000 on your host machine. It is used for non-SSL (HTTP) connections.
-    - **443** (HTTPS): This port is mapped to port 5443 on your host machine. It is used for SSL (HTTPS) connections.
+- **80** (HTTP): This port is mapped to port 5000 on your host machine. It is used for non-SSL (HTTP) connections.
+- **443** (HTTPS): This port is mapped to port 5443 on your host machine. It is used for SSL (HTTPS) connections.
 
 ---
 
@@ -137,12 +138,13 @@ Bludit CMS should now be running on your server, and you can access it through t
 
 To persist your Bludit content, plugins, themes, and SSL certificates, you can mount local directories to the corresponding directories inside the container:
 
-    - ```/path/to/bludit-content:/var/www/bludit/bl-content```: Bludit’s content (posts, media, etc.) will be stored here.
-    - ```/path/to/custom-certs:/var/www/bludit/custom-certs```: SSL certificates (if using external SSL).
-    - ```/path/to/custom-plugins:/var/www/bludit/custom-plugins```: Custom plugins for Bludit CMS.
-    - ```/path/to/custom-themes:/var/www/bludit/custom-themes```: Custom themes for Bludit CMS.
+- `/path/to/bludit-content:/var/www/bludit/bl-content`: Bludit’s content (posts, media, etc.) will be stored here.
+- `/path/to/custom-certs:/var/www/bludit/custom-certs`: SSL certificates (if using external SSL).
+- `/path/to/custom-plugins:/var/www/bludit/custom-plugins`: Custom plugins for Bludit CMS.
+- `/path/to/custom-themes:/var/www/bludit/custom-themes`: Custom themes for Bludit CMS.
 
 Make sure that these directories on your host machine exist and are accessible by Docker.
+
 
 ---
 
@@ -150,9 +152,8 @@ Make sure that these directories on your host machine exist and are accessible b
 
 You can configure the behavior of the container using the following environment variables:
 
-     - ```HTTP_METHOD```: Set this to ```http``` for HTTP (non-SSL) access or ```https``` for SSL access (default: ```https```).
-
-     - ```INTERNAL_SSL```: Set to ```1``` to use a self-signed SSL certificate or ```0``` to use externally signed SSL certificates (default: 1).
+- `HTTP_METHOD`: Set this to `http` for HTTP (non-SSL) access or `https` for SSL access (default: `https`).
+- `INTERNAL_SSL`: Set to `1` to use a self-signed SSL certificate or `0` to use externally signed SSL certificates (default: `1`).
 
 ---
 
